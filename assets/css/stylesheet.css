@@ -138,6 +138,10 @@ img {
     color: var(--secondary-color);
 }
 
+.hamburger {
+    display: none;
+}
+
 /* header */
 /* header_banner */
 .header_banner {

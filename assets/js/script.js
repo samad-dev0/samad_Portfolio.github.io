@@ -11,6 +11,16 @@ document.addEventListener("DOMContentLoaded", function () {
             link.classList.add('active');
         });
     });
+
+    // Hamburger menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const menuUl = document.querySelector('.menu_ul');
+    if (hamburger && menuUl) {
+        hamburger.addEventListener('click', function () {
+            menuUl.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        });
+    }
 });
 function aos_init() {
     AOS.init({
