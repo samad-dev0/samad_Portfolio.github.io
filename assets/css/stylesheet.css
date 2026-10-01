@@ -59,6 +59,7 @@ body {
 
 .container {
     width: 90%;
+    max-width: 1440px;
     margin: 0 auto;
 }
 
@@ -81,6 +82,7 @@ img {
     border: 0;
     font-weight: 500;
     cursor: pointer;
+    text-decoration: none;
 
 }
 
@@ -101,6 +103,20 @@ img {
 .logo h2 {
     font-size: 30px;
     color: var(--text-color2);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.logo_mark {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    object-fit: contain;
 }
 
 .menu_ul {
@@ -146,8 +162,12 @@ img {
 /* header_banner */
 .header_banner {
     background: var(--text-color2);
-    height: 90vh;
+    min-height: 90vh;
+    height: auto;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 40px 0;
 }
 
 .banner_content {
@@ -204,6 +224,9 @@ img {
     left: 110px;
     border-radius: 8px;
     border: 4px solid var(--text-color);
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .icon_list {
@@ -329,6 +352,7 @@ img {
 }
 
 .service_box {
+    flex: 1 1 0;
     margin: 30px 20px;
     border: 2px solid var(--text-color3);
     border-radius: 8px;
