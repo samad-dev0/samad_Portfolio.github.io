@@ -1,0 +1,457 @@
+/* Responsive Styles */
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+    .header {
+        position: relative;
+        z-index: 1000;
+    }
+
+    .hamburger {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 24px;
+        color: var(--text-color2);
+        border: 0;
+        background: transparent;
+        padding: 8px;
+    }
+
+    .menu_ul {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--text-color);
+        opacity: 0;
+        visibility: hidden;
+        padding: 10px 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 9999;
+    }
+
+    .menu_ul.active {
+        opacity: 1;
+        visibility: visible;
+        max-height: calc(100vh - 72px);
+        overflow-y: auto;
+    }
+
+    .menu_ul .nav_ul {
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+    }
+
+    .menu_ul .nav_li {
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .menu_ul .nav_ul .nav_link {
+        font-size: 18px;
+    }
+
+    .menu_ul .primary__btn {
+        margin-top: 10px;
+    }
+
+    .container {
+        width: 95%;
+    }
+
+    .header_banner {
+        min-height: 75vh;
+        padding: 48px 0;
+    }
+
+    .left_box h2 {
+        font-size: 60px;
+    }
+
+    .left_box h3 {
+        font-size: 45px;
+    }
+
+    .left_box p {
+        font-size: 20px;
+    }
+
+    .banner_content .right_box .banner_img img {
+        width: 80%;
+    }
+
+    .social_icon {
+        left: 50px;
+    }
+
+    .about_content {
+        flex-direction: column;
+    }
+
+    .about .left_box,
+    .about .right_box {
+        width: 100%;
+    }
+
+    .about_img {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    .counter_content {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px 20px;
+    }
+
+    .counter .counter_content .box {
+        width: auto;
+        margin: 0;
+    }
+
+    .service_boxs {
+        flex-wrap: wrap;
+    }
+
+    .service_box {
+        flex-basis: calc(50% - 40px);
+        min-width: 0;
+    }
+
+    .skill_section {
+        flex-direction: column;
+    }
+
+    .skill_img {
+        width: 100%;
+        height: 300px;
+    }
+
+    .contact_form .input_box {
+        width: 80%;
+    }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .header {
+        position: relative;
+        z-index: 1000;
+    }
+
+    .menu {
+        min-height: 44px;
+    }
+
+    .hamburger {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 24px;
+        color: var(--text-color2);
+        border: 0;
+        background: transparent;
+        padding: 8px;
+    }
+
+    .menu_ul {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--text-color);
+        flex-direction: column;
+        display: flex;
+        opacity: 0;
+        visibility: hidden;
+        padding: 10px 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .menu_ul.active {
+        opacity: 1;
+        visibility: visible;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        z-index: 9999;
+        max-height: calc(100vh - 72px);
+        overflow-y: auto;
+    }
+
+    .nav_ul {
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+    }
+
+    .nav_li {
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .primary__btn {
+        margin-top: 10px;
+    }
+
+    .logo h2 {
+        font-size: 24px;
+    }
+
+    .logo_mark {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+    }
+
+    .banner_content {
+        flex-direction: column;
+        text-align: center;
+        gap: 24px;
+    }
+
+    .header_banner {
+        min-height: 0;
+        padding: 48px 0 32px;
+    }
+
+    .left_box,
+    .right_box {
+        width: 100%;
+    }
+
+    .left_box h2 {
+        font-size: 40px;
+    }
+
+    .left_box h3 {
+        font-size: 30px;
+    }
+
+    .left_box p {
+        font-size: 18px;
+    }
+
+    .banner_content .right_box .banner_img img {
+        width: 70%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .social_icon {
+        position: static;
+        left: auto;
+        bottom: auto;
+        margin: 20px auto 0;
+        width: fit-content;
+        max-width: 100%;
+        justify-content: center;
+    }
+
+    .icon_list {
+        padding: 7px 4px;
+    }
+
+    .icon_list i {
+        font-size: 18px;
+        padding: 7px;
+    }
+
+    .about_content {
+        flex-direction: column;
+        text-align: center;
+        gap: 28px;
+    }
+
+    .about .left_box,
+    .about .right_box {
+        width: 100%;
+    }
+
+    .about_img {
+        width: 60%;
+        margin: 20px auto;
+    }
+
+    .about_img img {
+        height: auto;
+    }
+
+    .info_box .personal_info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .counter_content {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 28px 14px;
+    }
+
+    .counter .counter_content .box {
+        width: auto;
+        min-width: 0;
+        margin: 0;
+    }
+
+    .service_boxs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .service_box {
+        width: auto;
+        min-width: 0;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .skill_section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .skill_img {
+        width: 80%;
+        height: 250px;
+        margin: 20px auto;
+    }
+
+    .skill_img img {
+        height: 100%;
+    }
+
+    .skill_bar {
+        width: 100%;
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    .contact_form .input_box {
+        width: 90%;
+    }
+
+    .contact_form .input_box .input_field {
+        font-size: 18px;
+    }
+
+    .primary__btn {
+        font-size: 1rem;
+        height: 3rem;
+        line-height: 3rem;
+        padding: 0 1rem;
+    }
+
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+    .container {
+        width: 98%;
+    }
+
+    .service_boxs {
+        grid-template-columns: 1fr;
+    }
+
+    .left_box span {
+        font-size: 20px;
+    }
+
+    .left_box h2 {
+        font-size: 30px;
+    }
+
+    .left_box h3 {
+        font-size: 25px;
+    }
+
+    .left_box p {
+        font-size: 16px;
+    }
+
+    .banner_content .right_box .banner_img img {
+        width: 80%;
+    }
+
+    .about_img {
+        width: 80%;
+    }
+
+    .counter .counter_content .box h2 {
+        font-size: 42px;
+    }
+
+    .counter .counter_content .box h3 {
+        font-size: 18px;
+    }
+
+    .section_title h3 {
+        font-size: 30px;
+    }
+
+    .section_title span {
+        font-size: 20px;
+    }
+
+    .service_title {
+        font-size: 20px;
+    }
+
+    .skill_title {
+        font-size: 18px;
+    }
+
+    .contact_form .input_box .input_field {
+        font-size: 16px;
+        padding: 15px 20px;
+    }
+
+    .contact_form .input_box {
+        width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .container {
+        width: 94%;
+    }
+
+    .left_box h2 {
+        font-size: 28px;
+    }
+
+    .social_icon {
+        border-width: 2px;
+    }
+
+    .icon_list {
+        padding: 5px 2px;
+    }
+
+    .icon_list i {
+        font-size: 16px;
+        padding: 6px;
+    }
+
+    .service_box {
+        padding: 18px 14px;
+    }
+
+    .skill_title {
+        font-size: 16px;
+    }
+
+    .contact_form .input_box .input_field {
+        padding: 14px;
+    }
+}
