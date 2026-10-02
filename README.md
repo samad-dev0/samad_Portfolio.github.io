@@ -15,7 +15,18 @@ python manage.py runserver
 
 Ouvrir http://127.0.0.1:8000/ pour le portfolio et http://127.0.0.1:8000/admin/ pour l'administration.
 
-Les ressources d'origine restent dans `assets/` et sont servies par Django en développement. Pour la production, configurer `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0`, `DJANGO_ALLOWED_HOSTS` et collecter les fichiers statiques avec `python manage.py collectstatic`.
+Les ressources d'origine restent dans `assets/`. WhiteNoise les sert en production après `python manage.py collectstatic`.
+
+## Déploiement Render
+
+Le dépôt inclut `render.yaml` pour créer le service web Render. Avant le premier déploiement :
+
+1. Envoie le projet sur GitHub.
+2. Crée une base PostgreSQL dans Render. Choisis le plan et la région selon tes besoins, puis copie son **Internal Database URL**.
+3. Dans Render, crée un Blueprint depuis le dépôt. Lorsqu'il te le demande, renseigne `DATABASE_URL` avec l'**Internal Database URL** de la base PostgreSQL.
+4. Render construit les fichiers statiques, applique les migrations puis démarre Gunicorn. `DJANGO_SECRET_KEY` est générée par Render et `DEBUG` reste désactivé.
+
+Ne mets pas l'URL de base, de secret ou de mot de passe dans Git. SQLite reste utilisé en local; en production, le service refuse de démarrer sans `DATABASE_URL` pour éviter de perdre les données au redémarrage. Le SMTP est facultatif pour le lancement, mais doit être configuré dans les variables Render (`EMAIL_HOST`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `DEFAULT_FROM_EMAIL`) pour envoyer les confirmations de contact. Si tu ajoutes un domaine personnalisé, ajoute-le aussi à `DJANGO_ALLOWED_HOSTS` et `DJANGO_CSRF_TRUSTED_ORIGINS`.
 
 ## Courriels de confirmation
 
