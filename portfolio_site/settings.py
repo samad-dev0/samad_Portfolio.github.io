@@ -136,3 +136,10 @@ EMAIL_BACKEND = os.environ.get(
     if EMAIL_HOST or not DEBUG
     else "django.core.mail.backends.console.EmailBackend",
 )
+
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "")
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
+

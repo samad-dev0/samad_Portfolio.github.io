@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ profile.brand_name }} | Portfolio</title>
-    <link rel="shortcut icon" href="{% static 'img/user.png' %}">
+    <link rel="shortcut icon" href="{% static 'img/user2.png' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -23,7 +23,8 @@
                     <img class="logo_mark" src="{% static 'img/samdebug-mark.svg' %}" alt="" aria-hidden="true">
                     <h2>{{ profile.brand_name }}</h2>
                 </div>
-                <button class="hamburger" type="button" aria-label="Ouvrir le menu" aria-controls="primary-navigation" aria-expanded="false">
+                <button class="hamburger" type="button" aria-label="Ouvrir le menu" aria-controls="primary-navigation"
+                    aria-expanded="false">
                     <i class="fas fa-bars" aria-hidden="true"></i>
                 </button>
                 <div class="menu_ul" id="primary-navigation">
@@ -43,6 +44,17 @@
                         <li class="nav_li">
                             <a href="#contact" class="nav_link">Contact</a>
                         </li>
+                        {% if request.user.is_authenticated %}
+                        <li class="nav_li">
+                            <a href="{% url 'logout' %}" class="nav_link" title="Se déconnecter"><i
+                                    class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+                        </li>
+                        {% else %}
+                        <li class="nav_li">
+                            <a href="{% url 'login' %}?next={% url 'home' %}#contact" class="nav_link"><i
+                                    class="fa-solid fa-user"></i> Connexion</a>
+                        </li>
+                        {% endif %}
                     </ul>
                     <a class="primary__btn" href="#contact">Me joindre</a>
                 </div>
@@ -58,38 +70,77 @@
                 <h2 data-aos="fade-right">{{ profile.title_line_2 }}</h2>
                 <h2 data-aos="fade-right">{{ profile.title_line_3 }}</h2>
                 <p data-aos="fade-down">{{ profile.experience }}</p><br><br>
-                <a class="primary__btn" href="#contact" data-aos="fade-up">Travaillons!!</a>
+                <a class="primary__btn hero_cta" href="#contact" data-aos="fade-up">Travaillons!!</a>
             </div>
             <div class="right_box">
                 <div class="banner_img" data-aos="fade-left">
                     <img src="{% static 'img/user.png' %}" alt="Portrait de {{ profile.full_name }}">
                 </div>
                 <ul class="social_icon" data-aos="fade-down">
+                    {% if profile.facebook_url %}
                     <li class="icon_list">
-                        <a href="#">
+                        <a href="{{ profile.facebook_url }}" target="_blank" rel="noopener noreferrer"
+                            aria-label="Facebook">
                             <i class="fa-brands fa-facebook"></i>
                         </a>
                     </li>
+                    {% endif %}
+                    {% if profile.twitter_url %}
                     <li class="icon_list">
-                        <a href="#">
+                        <a href="{{ profile.twitter_url }}" target="_blank" rel="noopener noreferrer"
+                            aria-label="Twitter / X">
                             <i class="fa-brands fa-twitter"></i>
                         </a>
                     </li>
+                    {% endif %}
+                    {% if profile.youtube_url %}
                     <li class="icon_list">
-                        <a href="#">
+                        <a href="{{ profile.youtube_url }}" target="_blank" rel="noopener noreferrer"
+                            aria-label="YouTube">
                             <i class="fa-brands fa-youtube"></i>
                         </a>
                     </li>
+                    {% endif %}
+                    {% if profile.linkedin_url %}
                     <li class="icon_list">
-                        <a href="#">
+                        <a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener noreferrer"
+                            aria-label="LinkedIn">
                             <i class="fa-brands fa-linkedin"></i>
                         </a>
                     </li>
+                    {% endif %}
+                    {% if profile.instagram_url %}
                     <li class="icon_list">
-                        <a href="#">
+                        <a href="{{ profile.instagram_url }}" target="_blank" rel="noopener noreferrer"
+                            aria-label="Instagram">
                             <i class="fa-brands fa-instagram"></i>
                         </a>
                     </li>
+                    {% endif %}
+                    {% if profile.tiktok_url %}
+                    <li class="icon_list">
+                        <a href="{{ profile.tiktok_url }}" target="_blank" rel="noopener noreferrer"
+                            aria-label="TikTok">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if profile.whatsapp_url %}
+                    <li class="icon_list">
+                        <a href="{{ profile.whatsapp_url }}" target="_blank" rel="noopener noreferrer"
+                            aria-label="WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if profile.telegram_url %}
+                    <li class="icon_list">
+                        <a href="{{ profile.telegram_url }}" target="_blank" rel="noopener noreferrer"
+                            aria-label="Telegram">
+                            <i class="fa-brands fa-telegram"></i>
+                        </a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -100,14 +151,15 @@
         <div class="container about_content">
             <div class="left_box" data-aos="fade-right">
                 <span> A_propos de Moi</span>
-                <h3>{{ profile.about_heading }}</h3>
                 <div class="about_img">
-                    <img src="{% static 'img/user.png' %}" alt="Portrait de {{ profile.full_name }}" />
+                    <img src="{% static 'img/user2.png' %}?v=20261013" alt="Portrait de {{ profile.full_name }}" />
                 </div>
             </div>
             <div class="right_box" data-aos="fade-left">
                 <p>{{ profile.bio_first }}</p><br>
+                {% if profile.bio_second %}
                 <p class="p">{{ profile.bio_second }}</p><br>
+                {% endif %}
                 <h3>Information Personnel</h3><br><br>
                 <div class="info_box">
                     <div class="personal_info">
@@ -122,7 +174,8 @@
                         <h2>Téléphone</h2>
                         <p>{{ profile.phone }}</p><br><br>
                     </div>
-                    {% if profile.cv_url %}<a class="primary__btn" href="{{ profile.cv_url }}" target="_blank" rel="noopener">Telechargez CV</a>{% endif %}
+                    {% if profile.cv_url %}<a class="primary__btn" href="{{ profile.cv_url }}" target="_blank"
+                        rel="noopener">Telechargez CV</a>{% endif %}
                 </div>
             </div>
         </div>
@@ -130,13 +183,48 @@
     <!-- about -->
     <!-- counter -->
     <div class="container-fluid counter" id="counter">
-        <div class="container counter_content" data-aos="fade-up">
-            {% for metric in metrics %}
-            <div class="box">
-                <h2 class="metric_value" data-counter="{{ metric.value }}">{{ metric.value }}</h2>
-                <h3>{{ metric.title }}</h3>
+        <div class="container counter_content">
+            <div class="counter_heading" data-aos="fade-up">
+                <span>Mon parcours</span>
+                <h3>Quelques chiffres clés</h3>
             </div>
-            {% endfor %}
+            {% if metrics %}
+            <div class="metrics_carousel" data-metrics-carousel data-visible-slides="4" role="region"
+                aria-roledescription="carrousel" aria-label="Chiffres clés du portfolio" tabindex="0">
+                <button class="metrics_arrow" type="button" data-carousel-prev
+                    aria-label="Afficher le chiffre précédent">
+                    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                </button>
+                <div class="metrics_viewport" data-carousel-viewport>
+                    <div class="metrics_track" data-carousel-track>
+                        {% for metric in metrics %}
+                        <article class="metric_slide{% if forloop.first %} is-active{% endif %}" data-metric-slide
+                            role="group" aria-roledescription="diapositive"
+                            aria-label="{{ forloop.counter }} sur {{ metrics|length }}"
+                            aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
+                            <div class="box">
+                                <h2 class="metric_value" data-counter="{{ metric.value }}">{{ metric.value }}</h2>
+                                <h3>{{ metric.title }}</h3>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </div>
+                <button class="metrics_arrow" type="button" data-carousel-next aria-label="Afficher le chiffre suivant">
+                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="metrics_pagination" data-carousel-dots aria-label="Choisir un chiffre clé">
+                {% for metric in metrics %}
+                <button class="metrics_dot{% if forloop.first %} is-active{% endif %}" type="button"
+                    data-carousel-dot="{{ forloop.counter0 }}" aria-label="Afficher : {{ metric.title }}"
+                    aria-current="{% if forloop.first %}true{% else %}false{% endif %}"></button>
+                {% endfor %}
+            </div>
+            <p class="visually-hidden" data-carousel-status aria-live="polite"></p>
+            {% else %}
+            <p class="metrics_empty">Les chiffres clés seront bientôt disponibles.</p>
+            {% endif %}
         </div>
     </div>
     <!-- counter -->
@@ -147,19 +235,46 @@
                 <span>Services</span>
                 <h3>Ce que je fais pour mes clients</h3>
             </div>
-            <div class="service_boxs">
-                {% for service in services %}
-                <div class="service_box" data-aos="fade-down">
-                    <div class="service_icon">
-                        <i class="{{ service.icon_class }}"></i>
-                    </div>
-                    <div class="service_title">{{ service.title }}</div>
-                    <div class="service_disc">
-                        <p>{{ service.description|linebreaksbr }}</p>
+            {% if services %}
+            <div class="service_carousel" data-services-carousel role="region" aria-roledescription="carrousel"
+                aria-label="Mes services" tabindex="0">
+                <button class="service_arrow" type="button" data-service-prev
+                    aria-label="Afficher les services précédents">
+                    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                </button>
+                <div class="service_viewport" data-service-viewport>
+                    <div class="service_boxs" data-services-track>
+                        {% for service in services %}
+                        <article class="service_box" data-service-slide data-aos="fade-up"
+                            data-aos-delay="{{ forloop.counter0 }}00" role="group" aria-roledescription="diapositive"
+                            aria-label="{{ forloop.counter }} sur {{ services|length }}">
+                            <div class="service_icon">
+                                <i class="{{ service.icon_class }}"></i>
+                            </div>
+                            <div class="service_title">{{ service.title }}</div>
+                            <div class="service_disc">
+                                <p>{{ service.description|linebreaksbr }}</p>
+                            </div>
+                        </article>
+                        {% endfor %}
                     </div>
                 </div>
+                <button class="service_arrow" type="button" data-service-next
+                    aria-label="Afficher les services suivants">
+                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="service_pagination" data-service-dots aria-label="Choisir un service">
+                {% for service in services %}
+                <button class="service_dot{% if forloop.first %} is-active{% endif %}" type="button"
+                    data-service-dot="{{ forloop.counter0 }}" aria-label="Afficher : {{ service.title }}"
+                    aria-current="{% if forloop.first %}true{% else %}false{% endif %}"></button>
                 {% endfor %}
             </div>
+            <p class="visually-hidden" data-service-status aria-live="polite"></p>
+            {% else %}
+            <p class="services_empty">Les services seront bientôt disponibles.</p>
+            {% endif %}
         </div>
     </div>
     <!-- services -->
@@ -184,7 +299,7 @@
                                 <span>{{ skill.name }}</span>
                                 <span>{{ skill.level }}%</span>
                             </div>
-                            <div class="skill_outer">
+                            <div class="skill_outer" style="--skill-delay: {{ forloop.counter0 }}00ms;">
                                 <div class="skill_inner" style="width: {{ skill.level }}%;"></div>
                             </div>
                             {% endfor %}
@@ -202,33 +317,159 @@
                 <span>Contact</span>
                 <h3>Entrer en contact</h3>
             </div>
-            <div class="contact_form">
-                {% for message in messages %}<p class="contact_feedback">{{ message }}</p>{% endfor %}
-                <form action="{% url 'home' %}#contact" method="post">
-                    {% csrf_token %}
-                    <div class="input_box" data-aos="slide-left">
-                        {{ contact_form.email }}{{ contact_form.email.errors }}
+            <div class="contact_layout">
+                <div class="contact_form">
+                    {% for message in messages %}<p class="contact_feedback">{{ message }}</p>{% endfor %}
+
+                    {% if request.user.is_authenticated %}
+                    <div class="contact_auth_status" data-aos="fade-down">
+                        <div class="status_info">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Connecté en tant que <strong>{{
+                                    request.user.get_full_name|default:request.user.username }}</strong> ({{
+                                request.user.email }})</span>
+                        </div>
+                        <a href="{% url 'logout' %}" class="auth_action_link">Se déconnecter</a>
                     </div>
-                    <div class="input_box" data-aos="slide-right">
-                        {{ contact_form.name }}{{ contact_form.name.errors }}
+                    {% else %}
+                    <div class="contact_auth_prompt" data-aos="fade-down">
+                        <div class="auth_prompt_text">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Connectez-vous pour enregistrer vos informations et m'envoyer un message.</span>
+                        </div>
+                        <a href="{% url 'login' %}?next={% url 'home' %}#contact" class="auth_prompt_btn">
+                            <i class="fa-brands fa-google"></i>
+                            <span>Continuer avec Google / E-mail</span>
+                        </a>
                     </div>
-                    <div class="input_box" data-aos="slide-left">
-                        {{ contact_form.phone }}{{ contact_form.phone.errors }}
+                    {% endif %}
+
+                    <form action="{% url 'home' %}#contact" method="post">
+                        {% csrf_token %}
+                        <div class="input_box" data-aos="slide-left">
+                            {{ contact_form.email }}{{ contact_form.email.errors }}
+                        </div>
+                        <div class="input_box" data-aos="slide-right">
+                            {{ contact_form.name }}{{ contact_form.name.errors }}
+                        </div>
+                        <div class="input_box" data-aos="slide-left">
+                            {{ contact_form.phone }}{{ contact_form.phone.errors }}
+                        </div>
+                        <div class="input_box" data-aos="slide-right">
+                            {{ contact_form.message }}{{ contact_form.message.errors }}
+                        </div>
+                        <div class="input_box">
+                            <button class="primary__btn" type="submit">Envoyer</button>
+                        </div>
+                    </form>
+                </div>
+                <aside class="location_card" data-aos="fade-left" aria-labelledby="location-title">
+                    <div class="location_heading">
+                        <span>Me localiser</span>
+                        <h4 id="location-title">Ma position</h4>
+                        <p>Retrouvez-moi grâce à la carte.</p>
                     </div>
-                    <div class="input_box" data-aos="slide-right">
-                        {{ contact_form.message }}{{ contact_form.message.errors }}
+                    <div class="location_map">
+                        <iframe
+                            src="https://www.openstreetmap.org/export/embed.html?bbox=1.15392%2C6.19293%2C1.21392%2C6.25293&amp;layer=mapnik&amp;marker=6.22293%2C1.18392"
+                            title="Carte indiquant ma position" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
-                    <div class="input_box">
-                        <button class="primary__btn" type="submit">Envoyer</button>
+                    <div class="location_footer">
+                        <span class="location_pin" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></span>
+                        <p><strong>Position indiquée</strong><br>6.22293° N, 1.18392° E</p>
+                        <a href="https://www.openstreetmap.org/?mlat=6.22293&amp;mlon=1.18392#map=16/6.22293/1.18392"
+                            target="_blank" rel="noopener noreferrer"
+                            aria-label="Ouvrir la carte de ma position dans un nouvel onglet">
+                            Voir la carte <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                        </a>
                     </div>
-                </form>
+                </aside>
             </div>
         </div>
     </div>
     <!-- contact -->
+    <!-- footer -->
+    <footer class="site_footer">
+        <div class="container">
+            <div class="footer_columns">
+                <div class="footer_intro" data-aos="fade-up">
+                    <a class="footer_brand" href="#home">{{ profile.brand_name }}</a>
+                    <p>{{ profile.bio_first|truncatewords:32 }}</p>
+                </div>
+                <nav class="footer_column" data-aos="fade-up" data-aos-delay="100"
+                    aria-label="Navigation de pied de page">
+                    <h2>Navigation</h2>
+                    <ul>
+                        <li><a href="#home">Accueil</a></li>
+                        <li><a href="#about">À propos</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#skill">Compétences</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="footer_column footer_contact" data-aos="fade-up" data-aos-delay="200">
+                    <h2>Mes coordonnées</h2>
+                    <ul>
+                        <li><a href="mailto:{{ profile.email }}"><i class="fa-regular fa-envelope"
+                                    aria-hidden="true"></i>{{ profile.email }}</a></li>
+                        <li><a href="tel:{{ profile.phone|cut:' ' }}"><i class="fa-solid fa-phone"
+                                    aria-hidden="true"></i>{{ profile.phone }}</a></li>
+                        <li><a href="https://www.openstreetmap.org/?mlat=6.22293&amp;mlon=1.18392#map=16/6.22293/1.18392"
+                                target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-location-dot"
+                                    aria-hidden="true"></i>Voir ma position</a></li>
+                    </ul>
+                </div>
+                <div class="footer_column" data-aos="fade-up" data-aos-delay="300">
+                    <h2>Mes services</h2>
+                    <ul>
+                        {% for service in services %}
+                        <li><a href="#services">{{ service.title }}</a></li>
+                        {% empty %}
+                        <li><a href="#contact">Me contacter pour un projet</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="footer_bottom" data-aos="fade-up">
+                <p>© <span data-current-year></span> {{ profile.full_name }}. Tous droits réservés.</p>
+                <div class="footer_socials" aria-label="Réseaux sociaux">
+                    {% if profile.facebook_url %}<a href="{{ profile.facebook_url }}" target="_blank"
+                        rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"
+                            aria-hidden="true"></i></a>{% endif %}
+                    {% if profile.twitter_url %}<a href="{{ profile.twitter_url }}" target="_blank"
+                        rel="noopener noreferrer" aria-label="Twitter / X"><i class="fa-brands fa-x-twitter"
+                            aria-hidden="true"></i></a>{% endif %}
+                    {% if profile.youtube_url %}<a href="{{ profile.youtube_url }}" target="_blank"
+                        rel="noopener noreferrer" aria-label="YouTube"><i class="fa-brands fa-youtube"
+                            aria-hidden="true"></i></a>{% endif %}
+                    {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank"
+                        rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"
+                            aria-hidden="true"></i></a>{% endif %}
+                    {% if profile.instagram_url %}<a href="{{ profile.instagram_url }}" target="_blank"
+                        rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"
+                            aria-hidden="true"></i></a>{% endif %}
+                    {% if profile.tiktok_url %}<a href="{{ profile.tiktok_url }}" target="_blank"
+                        rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok"
+                            aria-hidden="true"></i></a>{% endif %}
+                    {% if profile.whatsapp_url %}<a href="{{ profile.whatsapp_url }}" target="_blank"
+                        rel="noopener noreferrer" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"
+                            aria-hidden="true"></i></a>{% endif %}
+                    {% if profile.telegram_url %}<a href="{{ profile.telegram_url }}" target="_blank"
+                        rel="noopener noreferrer" aria-label="Telegram"><i class="fa-brands fa-telegram"
+                            aria-hidden="true"></i></a>{% endif %}
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer -->
     <!-- script -->
     <script src="{% static 'lib/aos/aos.js' %}"></script>
-    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/script.js' %}?v=metrics-four-carousel-loop"></script>
+    <script>
+        document.querySelector("[data-current-year]").textContent = new Date().getFullYear();
+    </script>
 </body>
 
 </html>

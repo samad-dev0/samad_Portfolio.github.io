@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
@@ -9,12 +10,28 @@ class PortfolioProfile(models.Model):
     title_line_3 = models.CharField("Titre, ligne 3", max_length=100, default="au TOGO")
     experience = models.CharField("Expérience", max_length=120, default="Plus de 3 ans d'expérience")
     about_heading = models.CharField("Titre de présentation", max_length=120, default="Développeur D'application senior")
-    bio_first = models.TextField("Présentation, paragraphe 1", default="Je suis titulaire d’une licence a Esiba et j’ai effectué un stage professionnel au Ministere de la communication et des medias (radio kr), attesté par une certification de preuve.")
-    bio_second = models.TextField("Présentation, paragraphe 2", default="J’ai développé une application de stockage et de gestion d’audios et d’informations, permettant l’enregistrement, la consultation et l’administration des contenus audio, accompagnés de leurs données descriptives, au sein d’une interface centralisée.")
+    bio_first = models.TextField(
+        "Présentation, paragraphe 1",
+        default=(
+            "Ingénieur en informatique et technologies numériques, "
+            "spécialisé en développement d’applications web et mobile, "
+            "programmation, gestion de bases de données, ainsi qu’en "
+            "installation, configuration et maintenance des réseaux informatiques et télécommunications."
+        ),
+    )
+    bio_second = models.TextField("Présentation, paragraphe 2", blank=True, default="")
     full_name = models.CharField("Nom", max_length=120, default="TOUDJANI")
     email = models.EmailField("Email", default="samadtoudjani0@gmail.com")
     phone = models.CharField("Téléphone", max_length=40, default="+228 91 30 68 69")
     cv_url = models.URLField("Lien vers le CV", blank=True)
+    facebook_url = models.URLField("Profil Facebook", blank=True)
+    twitter_url = models.URLField("Profil Twitter / X", blank=True)
+    youtube_url = models.URLField("Chaîne YouTube", blank=True)
+    linkedin_url = models.URLField("Profil LinkedIn", blank=True)
+    instagram_url = models.URLField("Profil Instagram", blank=True)
+    tiktok_url = models.URLField("Profil TikTok", blank=True)
+    whatsapp_url = models.URLField("Lien WhatsApp", blank=True)
+    telegram_url = models.URLField("Profil Telegram", blank=True)
 
     class Meta:
         verbose_name = "profil"
@@ -70,6 +87,14 @@ class Skill(models.Model):
 
 
 class ContactMessage(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Utilisateur",
+        related_name="contact_messages",
+    )
     name = models.CharField("Nom", max_length=120)
     email = models.EmailField("Email")
     phone = models.CharField("Téléphone", max_length=40, blank=True)

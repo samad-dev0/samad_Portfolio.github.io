@@ -1,0 +1,513 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification | {{ profile.brand_name }}</title>
+    <link rel="shortcut icon" href="{% static 'img/user2.png' %}">
+    <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --auth-bg: #0b0f19;
+            --auth-card-bg: rgba(18, 24, 38, 0.88);
+            --auth-border: rgba(255, 255, 255, 0.08);
+            --auth-accent: #00d2ff;
+            --auth-accent-glow: rgba(0, 210, 255, 0.35);
+            --auth-text: #f3f4f6;
+            --auth-muted: #9ca3af;
+            --auth-input-bg: rgba(11, 15, 25, 0.8);
+            --auth-input-border: rgba(255, 255, 255, 0.14);
+        }
+
+        body.auth_page_body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 20%, #162035 0%, #080b12 80%);
+            color: var(--auth-text);
+            padding: 24px 16px;
+            font-family: inherit;
+        }
+
+        .auth_container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .auth_card {
+            background: var(--auth-card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--auth-border);
+            border-radius: 20px;
+            padding: 36px 32px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 40px rgba(0, 210, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth_card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5, #00d2ff);
+            background-size: 200% 100%;
+            animation: gradientSlide 4s linear infinite;
+        }
+
+        @keyframes gradientSlide {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .auth_back_link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--auth-muted);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 24px;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .auth_back_link:hover {
+            color: var(--auth-accent);
+            transform: translateX(-3px);
+        }
+
+        .auth_header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .auth_brand {
+            display: inline-block;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ffffff 40%, var(--auth-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            text-decoration: none;
+        }
+
+        .auth_header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 6px 0;
+            color: #ffffff;
+        }
+
+        .auth_header p {
+            color: var(--auth-muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .pending_message_alert {
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.35);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 13.5px;
+            color: #c7f3ff;
+            line-height: 1.45;
+        }
+
+        .pending_message_alert i {
+            color: var(--auth-accent);
+            font-size: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .messages_list {
+            margin-bottom: 20px;
+        }
+
+        .alert_msg {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert_msg.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+
+        .alert_msg.warning {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fcd34d;
+        }
+
+        .alert_msg.info, .alert_msg.success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #a7f3d0;
+        }
+
+        /* Google button */
+        .google_btn_wrapper {
+            margin-bottom: 22px;
+        }
+
+        .google_btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 13px 20px;
+            border-radius: 12px;
+            background: #ffffff;
+            color: #1f2937;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .google_btn:hover {
+            background: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .google_btn svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .auth_divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 22px 0;
+            color: var(--auth-muted);
+            font-size: 13px;
+        }
+
+        .auth_divider::before,
+        .auth_divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .auth_divider span {
+            padding: 0 14px;
+        }
+
+        /* Tabs */
+        .auth_tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border: 1px solid var(--auth-border);
+        }
+
+        .auth_tab_btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            color: var(--auth-muted);
+            font-weight: 500;
+            font-size: 14px;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .auth_tab_btn.active {
+            background: var(--auth-card-bg);
+            color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Form Controls */
+        .auth_form_panel {
+            display: none;
+        }
+
+        .auth_form_panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form_group {
+            margin-bottom: 18px;
+        }
+
+        .form_group label {
+            display: block;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: #e5e7eb;
+            margin-bottom: 7px;
+        }
+
+        .auth_input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--auth-input-bg);
+            border: 1px solid var(--auth-input-border);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 14.5px;
+            transition: all 0.2s ease;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .auth_input:focus {
+            border-color: var(--auth-accent);
+            box-shadow: 0 0 0 3px var(--auth-accent-glow);
+            background: rgba(16, 23, 40, 0.95);
+        }
+
+        .auth_input::placeholder {
+            color: #6b7280;
+        }
+
+        .field_errors {
+            margin-top: 6px;
+            font-size: 12.5px;
+            color: #f87171;
+            line-height: 1.4;
+        }
+
+        .auth_submit_btn {
+            width: 100%;
+            padding: 13px 20px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 18px rgba(0, 210, 255, 0.3);
+            margin-top: 8px;
+        }
+
+        .auth_submit_btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(0, 210, 255, 0.45);
+        }
+
+        .auth_submit_btn:active {
+            transform: translateY(0);
+        }
+
+        .auth_footer_note {
+            text-align: center;
+            font-size: 13px;
+            color: var(--auth-muted);
+            margin-top: 22px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body class="auth_page_body">
+    <div class="auth_container">
+        <div class="auth_card">
+            <a href="{% url 'home' %}" class="auth_back_link">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Retour au portfolio</span>
+            </a>
+
+            <div class="auth_header">
+                <a href="{% url 'home' %}" class="auth_brand">{{ profile.brand_name }}</a>
+                <h1>Authentification requise</h1>
+                <p>Identifiez-vous pour envoyer votre message et enregistrer vos coordonnées.</p>
+            </div>
+
+            {% if has_pending %}
+            <div class="pending_message_alert">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <div>
+                    <strong>Message en attente :</strong><br>
+                    Votre message a été conservé. Il sera automatiquement envoyé dès votre connexion.
+                </div>
+            </div>
+            {% endif %}
+
+            {% if messages %}
+            <div class="messages_list">
+                {% for msg in messages %}
+                <div class="alert_msg {% if msg.tags %}{{ msg.tags }}{% else %}info{% endif %}">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>{{ msg }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Bouton Google -->
+            <div class="google_btn_wrapper">
+                <a href="{% url 'google_login' %}?next={{ next_url|urlencode }}" class="google_btn" id="google-login-btn">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                    </svg>
+                    <span>Continuer avec Google</span>
+                </a>
+            </div>
+
+            <div class="auth_divider">
+                <span>ou avec votre adresse e-mail</span>
+            </div>
+
+            <!-- Onglets Connexion / Inscription -->
+            <div class="auth_tabs">
+                <button type="button" class="auth_tab_btn {% if active_tab == 'login' %}active{% endif %}" data-tab="login">
+                    Se connecter
+                </button>
+                <button type="button" class="auth_tab_btn {% if active_tab == 'register' %}active{% endif %}" data-tab="register">
+                    Créer un compte
+                </button>
+            </div>
+
+            <!-- Formulaire de Connexion -->
+            <div class="auth_form_panel {% if active_tab == 'login' %}active{% endif %}" id="panel-login">
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="login">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+
+                    {% if login_form.non_field_errors %}
+                    <div class="alert_msg error">
+                        {{ login_form.non_field_errors }}
+                    </div>
+                    {% endif %}
+
+                    <div class="form_group">
+                        <label for="{{ login_form.username_or_email.id_for_label }}">Adresse e-mail ou nom d’utilisateur</label>
+                        {{ login_form.username_or_email }}
+                        {% if login_form.username_or_email.errors %}
+                        <div class="field_errors">{{ login_form.username_or_email.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form_group">
+                        <label for="{{ login_form.password.id_for_label }}">Mot de passe</label>
+                        {{ login_form.password }}
+                        {% if login_form.password.errors %}
+                        <div class="field_errors">{{ login_form.password.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="auth_submit_btn">
+                        Se connecter et continuer
+                    </button>
+                </form>
+            </div>
+
+            <!-- Formulaire d'Inscription -->
+            <div class="auth_form_panel {% if active_tab == 'register' %}active{% endif %}" id="panel-register">
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="register">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+
+                    {% if register_form.non_field_errors %}
+                    <div class="alert_msg error">
+                        {{ register_form.non_field_errors }}
+                    </div>
+                    {% endif %}
+
+                    <div class="form_group">
+                        <label for="{{ register_form.name.id_for_label }}">Nom complet</label>
+                        {{ register_form.name }}
+                        {% if register_form.name.errors %}
+                        <div class="field_errors">{{ register_form.name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form_group">
+                        <label for="{{ register_form.email.id_for_label }}">Adresse e-mail</label>
+                        {{ register_form.email }}
+                        {% if register_form.email.errors %}
+                        <div class="field_errors">{{ register_form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form_group">
+                        <label for="{{ register_form.password.id_for_label }}">Mot de passe</label>
+                        {{ register_form.password }}
+                        {% if register_form.password.errors %}
+                        <div class="field_errors">{{ register_form.password.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form_group">
+                        <label for="{{ register_form.password_confirm.id_for_label }}">Confirmation du mot de passe</label>
+                        {{ register_form.password_confirm }}
+                        {% if register_form.password_confirm.errors %}
+                        <div class="field_errors">{{ register_form.password_confirm.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="auth_submit_btn">
+                        Créer mon compte et continuer
+                    </button>
+                </form>
+            </div>
+
+            <div class="auth_footer_note">
+                Vos informations sont strictement sécurisées et uniquement utilisées pour faciliter nos échanges professionnels.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.auth_tab_btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.tab;
+                document.querySelectorAll('.auth_tab_btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.auth_form_panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                const targetPanel = document.getElementById('panel-' + target);
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
