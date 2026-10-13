@@ -282,8 +282,8 @@
     <div class="container-fluid skill" id="skill">
         <div class="container skill_content">
             <div class="section_title">
-                <span>Skills</span>
-                <h3>My Skills</h3>
+                <span>Compétences</span>
+                <h3>Mes compétences</h3>
             </div>
             <div class="skill_section">
                 <div class="left_box">
@@ -294,15 +294,49 @@
                 <div class="right_box">
                     <div class="skill_bar">
                         <div class="skill_run " data-aos="slide-left">
-                            {% for skill in skills %}
                             <div class="skill_title">
-                                <span>{{ skill.name }}</span>
-                                <span>{{ skill.level }}%</span>
+                                <span>Spring Boot</span>
+                                <span>80%</span>
                             </div>
-                            <div class="skill_outer" style="--skill-delay: {{ forloop.counter0 }}00ms;">
-                                <div class="skill_inner" style="width: {{ skill.level }}%;"></div>
+                            <div class="skill_outer" style="--skill-delay: 0ms;">
+                                <div class="skill_inner" style="width: 80%;"></div>
                             </div>
-                            {% endfor %}
+                            <div class="skill_title">
+                                <span>Angular / React</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="skill_outer" style="--skill-delay: 100ms;">
+                                <div class="skill_inner" style="width: 70%;"></div>
+                            </div>
+                            <div class="skill_title">
+                                <span>Symfony</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="skill_outer" style="--skill-delay: 200ms;">
+                                <div class="skill_inner" style="width: 60%;"></div>
+                            </div>
+                            <div class="skill_title">
+                                <span>Django</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill_outer" style="--skill-delay: 300ms;">
+                                <div class="skill_inner" style="width: 90%;"></div>
+                            </div>
+                            <div class="skill_title">
+                                <span>SQL</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill_outer" style="--skill-delay: 400ms;">
+                                <div class="skill_inner" style="width: 95%;"></div>
+                            </div>
+                            <div class="skill_title">
+                                <span>Flutter</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="skill_outer" style="--skill-delay: 500ms;">
+                                <div class="skill_inner" style="width: 60%;"></div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
