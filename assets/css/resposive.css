@@ -1,9 +1,67 @@
 /* Responsive Styles */
 
+@media (min-width: 1025px) and (max-width: 1180px) {
+    .header .hamburger {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 24px;
+        color: var(--text-color2);
+        border: 0;
+        background: transparent;
+        padding: 8px;
+        order: 2;
+    }
+
+    .header .theme_toggle {
+        order: 3;
+    }
+
+    .header .menu_ul {
+        position: fixed;
+        top: 68px;
+        left: 0;
+        z-index: 9999;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        padding: 10px 0;
+        background: transparent;
+        box-shadow: none;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s ease, visibility .3s ease;
+        order: 4;
+    }
+
+    .header .menu_ul.active {
+        max-height: calc(100vh - 76px);
+        overflow-y: auto;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .header .menu_ul .nav_ul {
+        width: 100%;
+        flex-direction: column;
+        margin: 0;
+    }
+
+    .header .menu_ul .nav_li {
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .header .menu_ul > .primary__btn {
+        margin-top: 10px;
+    }
+}
+
 /* Tablet Styles */
 @media (max-width: 1024px) {
     .header {
-        position: relative;
+        position: absolute;
         z-index: 1000;
     }
 
@@ -17,6 +75,7 @@
         border: 0;
         background: transparent;
         padding: 8px;
+        order: 2;
     }
 
     .menu_ul {
@@ -26,11 +85,11 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        background-color: var(--text-color);
+        background-color: transparent;
         opacity: 0;
         visibility: hidden;
         padding: 10px 0;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: none;
         transition: opacity 0.3s ease, visibility 0.3s ease;
         z-index: 9999;
     }
@@ -61,33 +120,61 @@
         margin-top: 10px;
     }
 
+    .header .menu_ul {
+        order: 4;
+    }
+
+    .header .theme_toggle {
+        order: 3;
+    }
+
     .container {
         width: 95%;
     }
 
     .header_banner {
-        min-height: 75vh;
-        padding: 48px 0;
+        height: auto;
+        min-height: 100svh;
+        padding: 88px 0 20px;
     }
 
-    .left_box h2 {
-        font-size: 60px;
+    .banner_content {
+        height: auto;
+        min-height: 0;
     }
 
-    .left_box h3 {
-        font-size: 45px;
+    .header_banner .right_box.hero_visual {
+        height: auto;
     }
 
-    .left_box p {
-        font-size: 20px;
+    .header_banner .banner_img {
+        flex-basis: min(110%, 720px);
+        width: min(110%, 720px);
+        height: min(86svh, 680px);
     }
 
     .banner_content .right_box .banner_img img {
-        width: 80%;
+        top: 0;
     }
 
-    .social_icon {
-        left: 50px;
+    .header_banner .left_box.hero_intro {
+        width: 48%;
+    }
+
+    .header_banner .right_box.hero_visual {
+        width: 52%;
+    }
+
+    .header_banner .hero_title {
+        font-size: clamp(44px, 6vw, 62px);
+    }
+
+    .banner_content .right_box .banner_img img {
+        width: 100%;
+    }
+
+    .header_banner .social_icon {
+        left: 50%;
     }
 
     .about_content {
@@ -156,9 +243,17 @@
         flex-direction: column;
     }
 
-    .skill_img {
+    .skill_section > .left_box,
+    .skill_details {
         width: 100%;
-        height: 300px;
+    }
+
+    .skill_section {
+        gap: 24px;
+    }
+
+    .skill_img {
+        width: min(80vw, 400px);
     }
 
     .contact_form .input_box {
@@ -188,7 +283,7 @@
 /* Mobile Styles */
 @media (max-width: 768px) {
     .header {
-        position: relative;
+        position: absolute;
         z-index: 1000;
     }
 
@@ -206,6 +301,7 @@
         border: 0;
         background: transparent;
         padding: 8px;
+        order: 2;
     }
 
     .menu_ul {
@@ -213,13 +309,13 @@
         top: 100%;
         left: 0;
         width: 100%;
-        background-color: var(--text-color);
+        background-color: transparent;
         flex-direction: column;
         display: flex;
         opacity: 0;
         visibility: hidden;
         padding: 10px 0;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        box-shadow: none;
         transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
@@ -233,6 +329,13 @@
         z-index: 9999;
         max-height: calc(100vh - 72px);
         overflow-y: auto;
+    }
+
+    .header .theme_toggle {
+        min-height: 38px;
+        padding: 0 10px;
+        font-size: 13px;
+        order: 3;
     }
 
     .nav_ul {
@@ -262,46 +365,83 @@
 
     .banner_content {
         flex-direction: column;
-        text-align: center;
-        gap: 24px;
+        align-items: stretch;
+        text-align: left;
+        height: auto;
+        min-height: 0;
+        gap: 0;
     }
 
     .header_banner {
         min-height: 0;
-        padding: 48px 0 32px;
+        height: auto;
+        padding: 112px 0 0;
     }
 
-    .left_box,
-    .right_box {
+    .hero_shape {
+        top: auto;
+        height: 55%;
+    }
+
+    .hero_shape_desktop {
+        display: none;
+    }
+
+    .hero_shape_mobile {
+        display: block;
+    }
+
+    .header_banner .left_box.hero_intro,
+    .header_banner .right_box.hero_visual {
         width: 100%;
     }
 
-    .left_box h2 {
-        font-size: 40px;
+    .header_banner .left_box.hero_intro {
+        padding: 18px 0 28px;
     }
 
-    .left_box h3 {
-        font-size: 30px;
+    .header_banner .hero_title {
+        max-width: 560px;
+        font-size: clamp(40px, 10vw, 62px);
     }
 
-    .left_box p {
-        font-size: 18px;
+    .header_banner .hero_description {
+        max-width: 560px;
+        margin-top: 18px;
+        font-size: 17px;
     }
 
-    .banner_content .right_box .banner_img img {
-        width: 70%;
+    .hero_actions {
+        margin-top: 22px;
+    }
+
+    .header_banner .right_box.hero_visual {
         height: auto;
+        min-height: 0;
+        align-items: flex-end;
+    }
+
+    .header_banner .banner_img {
+        flex: 0 0 min(100vw, 620px);
+        width: min(100vw, 620px);
+        height: min(82svh, 700px);
         margin: 0 auto;
     }
 
-    .social_icon {
-        position: static;
-        left: auto;
-        bottom: auto;
-        margin: 20px auto 0;
+    .header_banner .banner_img img {
+        width: 100%;
+        top: -24px;
+    }
+
+    .header_banner .social_icon {
+        position: absolute;
+        left: 50%;
+        bottom: 12px;
+        margin: 0;
         width: fit-content;
         max-width: 100%;
         justify-content: center;
+        transform: translateX(-50%);
     }
 
     .icon_list {
@@ -403,14 +543,41 @@
         text-align: center;
     }
 
+    .skill_tabs {
+        gap: 8px;
+        margin: 24px 0 8px;
+    }
+
+    .skill_tab {
+        min-height: 40px;
+        padding: 0 14px;
+        font-size: 14px;
+    }
+
+    .skill_panel {
+        min-height: 0;
+        padding: 24px 18px;
+        text-align: left;
+    }
+
+    .skill_panel h4 {
+        margin-bottom: 18px;
+    }
+
+    .skill_list {
+        gap: 14px 18px;
+    }
+
+    .skill_list li {
+        padding: 0;
+    }
+
     .skill_img {
-        width: 80%;
-        height: 250px;
-        margin: 20px auto;
+        width: min(86vw, 340px);
     }
 
     .skill_img img {
-        height: 100%;
+        height: 88%;
     }
 
     .skill_bar {
@@ -438,28 +605,57 @@
 
 /* Small Mobile Styles */
 @media (max-width: 480px) {
+    .skill_list {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
     .container {
         width: 98%;
     }
 
-    .left_box span {
-        font-size: 20px;
+    .header .container {
+        width: 94%;
     }
 
-    .left_box h2 {
-        font-size: 30px;
+    .header .menu {
+        gap: 8px;
     }
 
-    .left_box h3 {
-        font-size: 25px;
+    .header .logo {
+        gap: 6px;
     }
 
-    .left_box p {
+    .header .logo h2 {
+        font-size: 18px;
+    }
+
+    .header .logo_mark {
+        width: 28px;
+        height: 28px;
+        flex-basis: 28px;
+    }
+
+    .header .theme_toggle {
+        min-height: 36px;
+        padding: 0 9px;
+        font-size: 12px;
+    }
+
+    .header .hamburger {
+        padding: 6px;
+        font-size: 21px;
+    }
+
+    .header_banner .hero_title {
+        font-size: clamp(36px, 10vw, 48px);
+    }
+
+    .header_banner .hero_description {
         font-size: 16px;
     }
 
     .banner_content .right_box .banner_img img {
-        width: 80%;
+        width: 100%;
     }
 
     .about_img {
@@ -547,8 +743,9 @@
         width: 94%;
     }
 
-    .left_box h2 {
-        font-size: 28px;
+    .header .theme_toggle {
+        gap: 5px;
+        padding: 0 7px;
     }
 
     .social_icon {

@@ -11,11 +11,11 @@
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{% static 'lib/aos/aos.css' %}">
-    <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/resposive.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}?v=portfolio-security-circle-animation" />
+    <link rel="stylesheet" href="{% static 'css/resposive.css' %}?v=portfolio-security-image-size" />
 </head>
 
-<body>
+<body data-theme="light">
     <div class="container-fluid header">
         <div class="container">
             <div class="menu">
@@ -27,13 +27,18 @@
                     aria-expanded="false">
                     <i class="fas fa-bars" aria-hidden="true"></i>
                 </button>
+                <button class="theme_toggle" type="button" data-theme-toggle aria-label="Activer le thème sombre"
+                    title="Activer le thème sombre" aria-pressed="true">
+                    <i class="fa-solid fa-moon" aria-hidden="true"></i>
+                    <span data-theme-label>Mode sombre</span>
+                </button>
                 <div class="menu_ul" id="primary-navigation">
                     <ul class="nav_ul">
                         <li class="nav_li">
                             <a href="#home" class="nav_link active">Accueil</a>
                         </li>
                         <li class="nav_li">
-                            <a href="#about" class="nav_link">A_propos</a>
+                            <a href="#about" class="nav_link">À propos</a>
                         </li>
                         <li class="nav_li">
                             <a href="#services" class="nav_link">Services</a>
@@ -63,18 +68,35 @@
     </div>
     <!-- header Banner -->
     <div class="container-fluid header_banner" id="home">
+        <svg class="hero_shape" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true">
+            <path class="hero_shape_desktop"
+                d="M570 0H1000V700H430C500 700 560 675 595 640C520 620 475 585 475 525C475 465 520 410 565 345C620 265 640 185 610 120C600 100 585 85 570 75Z" />
+            <path class="hero_shape_mobile"
+                d="M170 0C110 100 85 190 130 275C180 365 150 455 100 535C60 595 25 650 60 700H1000V0Z" />
+        </svg>
         <div class="container banner_content">
-            <div class="left_box">
-                <span data-aos="slide-left">Bonjour, je suis</span><br><br><br>
-                <h2 data-aos="fade-right">{{ profile.title_line_1 }}</h2>
-                <h2 data-aos="fade-right">{{ profile.title_line_2 }}</h2>
-                <h2 data-aos="fade-right">{{ profile.title_line_3 }}</h2>
-                <p data-aos="fade-down">{{ profile.experience }}</p><br><br>
-                <a class="primary__btn hero_cta" href="#contact" data-aos="fade-up">Travaillons!!</a>
+            <div class="left_box hero_intro">
+                <h1 class="hero_title" data-aos="fade-right">
+                    Bonjour,<br>je suis <span>{{ profile.full_name }}</span>
+                </h1>
+                <p class="hero_description" data-aos="fade-down">{{ profile.bio_first|truncatewords:34 }}</p>
+                <div class="hero_actions" data-aos="fade-up">
+                    <a class="primary__btn hero_cta" href="#services">Mes services</a>
+                    {% if profile.linkedin_url %}
+                    <a class="hero_secondary_btn" href="{{ profile.linkedin_url }}" target="_blank"
+                        rel="noopener noreferrer">LinkedIn</a>
+                    {% elif profile.cv_url %}
+                    <a class="hero_secondary_btn" href="{{ profile.cv_url }}" target="_blank"
+                        rel="noopener noreferrer">Mon CV</a>
+                    {% else %}
+                    <a class="hero_secondary_btn" href="#contact">Me contacter</a>
+                    {% endif %}
+                </div>
             </div>
-            <div class="right_box">
+            <div class="right_box hero_visual">
                 <div class="banner_img" data-aos="fade-left">
-                    <img src="{% static 'img/user.png' %}" alt="Portrait de {{ profile.full_name }}">
+                    <img src="{% static 'img/user2.png' %}?v=portfolio-hero-redesign"
+                        alt="Portrait de {{ profile.full_name }}">
                 </div>
                 <ul class="social_icon" data-aos="fade-down">
                     {% if profile.facebook_url %}
@@ -152,7 +174,8 @@
             <div class="left_box" data-aos="fade-right">
                 <span> A_propos de Moi</span>
                 <div class="about_img">
-                    <img src="{% static 'img/user2.png' %}?v=20261013" alt="Portrait de {{ profile.full_name }}" />
+                    <img src="{% static 'img/site.png' %}?v=20261019"
+                        alt="Aperçu des interfaces et outils du site SAMDEBUG" />
                 </div>
             </div>
             <div class="right_box" data-aos="fade-left">
@@ -285,60 +308,191 @@
                 <span>Compétences</span>
                 <h3>Mes compétences</h3>
             </div>
+            <div class="skill_tabs" role="tablist" aria-label="Catégories de compétences" data-skill-tabs>
+                <button class="skill_tab is-active" id="skill-tab-frontend" type="button" role="tab"
+                    aria-selected="true" aria-controls="skill-panel-frontend" tabindex="0"
+                    data-skill-tab="frontend">Frontend</button>
+                <button class="skill_tab" id="skill-tab-backend" type="button" role="tab" aria-selected="false"
+                    aria-controls="skill-panel-backend" tabindex="-1" data-skill-tab="backend">Backend</button>
+                <button class="skill_tab" id="skill-tab-frameworks" type="button" role="tab" aria-selected="false"
+                    aria-controls="skill-panel-frameworks" tabindex="-1"
+                    data-skill-tab="frameworks">Frameworks et bibliothèques</button>
+                <button class="skill_tab" id="skill-tab-sql" type="button" role="tab" aria-selected="false"
+                    aria-controls="skill-panel-sql" tabindex="-1" data-skill-tab="sql">SQL</button>
+                <button class="skill_tab" id="skill-tab-nosql" type="button" role="tab" aria-selected="false"
+                    aria-controls="skill-panel-nosql" tabindex="-1" data-skill-tab="nosql">NoSQL</button>
+            </div>
             <div class="skill_section">
                 <div class="left_box">
                     <div class="skill_img" data-aos="slide-right">
-                        <img src="{% static 'img/user.png' %}" alt="Portrait de {{ profile.full_name }}" />
+                        <img src="{% static 'img/securite.png' %}?v=portfolio-security-skill-image"
+                            alt="Illustration de cybersécurité" />
                     </div>
                 </div>
-                <div class="right_box">
-                    <div class="skill_bar">
-                        <div class="skill_run " data-aos="slide-left">
-                            <div class="skill_title">
-                                <span>Spring Boot</span>
-                                <span>80%</span>
-                            </div>
-                            <div class="skill_outer" style="--skill-delay: 0ms;">
-                                <div class="skill_inner" style="width: 80%;"></div>
-                            </div>
-                            <div class="skill_title">
-                                <span>Angular / React</span>
-                                <span>70%</span>
-                            </div>
-                            <div class="skill_outer" style="--skill-delay: 100ms;">
-                                <div class="skill_inner" style="width: 70%;"></div>
-                            </div>
-                            <div class="skill_title">
-                                <span>Symfony</span>
-                                <span>60%</span>
-                            </div>
-                            <div class="skill_outer" style="--skill-delay: 200ms;">
-                                <div class="skill_inner" style="width: 60%;"></div>
-                            </div>
-                            <div class="skill_title">
-                                <span>Django</span>
-                                <span>90%</span>
-                            </div>
-                            <div class="skill_outer" style="--skill-delay: 300ms;">
-                                <div class="skill_inner" style="width: 90%;"></div>
-                            </div>
-                            <div class="skill_title">
-                                <span>SQL</span>
-                                <span>95%</span>
-                            </div>
-                            <div class="skill_outer" style="--skill-delay: 400ms;">
-                                <div class="skill_inner" style="width: 95%;"></div>
-                            </div>
-                            <div class="skill_title">
-                                <span>Flutter</span>
-                                <span>60%</span>
-                            </div>
-                            <div class="skill_outer" style="--skill-delay: 500ms;">
-                                <div class="skill_inner" style="width: 60%;"></div>
-                            </div>
-
-                        </div>
-                    </div>
+                <div class="right_box skill_details" data-aos="slide-left">
+                    <section class="skill_panel" id="skill-panel-frontend" role="tabpanel"
+                        aria-labelledby="skill-tab-frontend" data-skill-panel="frontend">
+                        <h4>Développement Frontend</h4>
+                        <ul class="skill_list">
+                            <li>
+                                <div class="skill_title"><span>HTML5</span><span>85 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="HTML5" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="85">
+                                    <div class="skill_inner" style="--skill-level: 85%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>CSS3</span><span>85 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="CSS3" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="85">
+                                    <div class="skill_inner" style="--skill-level: 85%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>JavaScript</span><span>75 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="JavaScript" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="75">
+                                    <div class="skill_inner" style="--skill-level: 75%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>Dart</span><span>60 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="Dart" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="60">
+                                    <div class="skill_inner" style="--skill-level: 60%"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="skill_panel" id="skill-panel-backend" role="tabpanel"
+                        aria-labelledby="skill-tab-backend" data-skill-panel="backend" hidden>
+                        <h4>Développement Backend</h4>
+                        <ul class="skill_list">
+                            <li>
+                                <div class="skill_title"><span>Python</span><span>100 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="Python" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="100">
+                                    <div class="skill_inner" style="--skill-level: 100%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>Node.js (JavaScript)</span><span>70 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="Node.js (JavaScript)"
+                                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="70">
+                                    <div class="skill_inner" style="--skill-level: 70%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>PHP</span><span>70 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="PHP" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="70">
+                                    <div class="skill_inner" style="--skill-level: 70%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>Java</span><span>65 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="Java" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="65">
+                                    <div class="skill_inner" style="--skill-level: 65%"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="skill_panel" id="skill-panel-frameworks" role="tabpanel"
+                        aria-labelledby="skill-tab-frameworks" data-skill-panel="frameworks" hidden>
+                        <h4>Frameworks et bibliothèques</h4>
+                        <ul class="skill_list">
+                            <li>
+                                <div class="skill_title"><span>React.js</span><span>70 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="React.js" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="70">
+                                    <div class="skill_inner" style="--skill-level: 70%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>Django</span><span>100 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="Django" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="100">
+                                    <div class="skill_inner" style="--skill-level: 100%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>Angular</span><span>90 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="Angular" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="90">
+                                    <div class="skill_inner" style="--skill-level: 90%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>Spring Boot</span><span>80 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="Spring Boot" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="80">
+                                    <div class="skill_inner" style="--skill-level: 80%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>Bootstrap</span><span>80 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="Bootstrap" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="80">
+                                    <div class="skill_inner" style="--skill-level: 80%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>Tailwind CSS</span><span>75 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="Tailwind CSS"
+                                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="75">
+                                    <div class="skill_inner" style="--skill-level: 75%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>Flutter</span><span>60 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="Flutter" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="60">
+                                    <div class="skill_inner" style="--skill-level: 60%"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="skill_panel" id="skill-panel-sql" role="tabpanel"
+                        aria-labelledby="skill-tab-sql" data-skill-panel="sql" hidden>
+                        <h4>Bases de données SQL</h4>
+                        <ul class="skill_list">
+                            <li>
+                                <div class="skill_title"><span>PostgreSQL</span><span>80 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="PostgreSQL" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="80">
+                                    <div class="skill_inner" style="--skill-level: 80%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>MySQL</span><span>90 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="MySQL" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="90">
+                                    <div class="skill_inner" style="--skill-level: 90%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="skill_title"><span>SQLite</span><span>75 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="SQLite" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="75">
+                                    <div class="skill_inner" style="--skill-level: 75%"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="skill_panel" id="skill-panel-nosql" role="tabpanel"
+                        aria-labelledby="skill-tab-nosql" data-skill-panel="nosql" hidden>
+                        <h4>Bases de données NoSQL</h4>
+                        <ul class="skill_list">
+                            <li>
+                                <div class="skill_title"><span>MongoDB</span><span>70 %</span></div>
+                                <div class="skill_outer" role="progressbar" aria-label="MongoDB" aria-valuemin="0"
+                                    aria-valuemax="100" aria-valuenow="70">
+                                    <div class="skill_inner" style="--skill-level: 70%"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
                 </div>
             </div>
         </div>
@@ -500,7 +654,7 @@
     <!-- footer -->
     <!-- script -->
     <script src="{% static 'lib/aos/aos.js' %}"></script>
-    <script src="{% static 'js/script.js' %}?v=metrics-four-carousel-loop"></script>
+    <script src="{% static 'js/script.js' %}?v=portfolio-light-startup"></script>
     <script>
         document.querySelector("[data-current-year]").textContent = new Date().getFullYear();
     </script>

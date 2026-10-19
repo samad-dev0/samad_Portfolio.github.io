@@ -6,6 +6,24 @@ from .models import ContactMessage, Metric, PortfolioProfile, Service
 
 
 class PortfolioContentTests(TestCase):
+    def test_homepage_starts_in_light_theme_with_responsive_hero_shapes(self):
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, '<body data-theme="light">')
+        self.assertContains(response, "class=\"hero_shape_desktop\"")
+        self.assertContains(response, "class=\"hero_shape_mobile\"")
+        self.assertContains(response, "V700H430")
+        self.assertContains(response, "portfolio-light-startup")
+
+    def test_homepage_shows_accessible_skill_percentages(self):
+        response = self.client.get(reverse("home"))
+
+        self.assertEqual(response.content.count(b'role="progressbar"'), 19)
+        for skill in ("React.js", "Django", "Angular", "Spring Boot", "MySQL"):
+            self.assertContains(response, f'aria-label="{skill}"')
+        for level in (70, 80, 90, 100):
+            self.assertContains(response, f'aria-valuenow="{level}"')
+
     def test_maintenance_service_is_in_looping_service_carousel(self):
         response = self.client.get(reverse("home"))
 
@@ -40,7 +58,11 @@ class PortfolioContentTests(TestCase):
         response = self.client.get(reverse("home"))
 
         self.assertContains(response, "Profil mis à jour")
-        self.assertContains(response, 'src="/static/img/user2.png?v=20261013"')
+        self.assertContains(response, 'src="/static/img/user2.png?v=portfolio-hero-redesign"')
+        self.assertContains(response, 'src="/static/img/site.png?v=20261019"')
+        self.assertContains(response, 'alt="Aperçu des interfaces et outils du site SAMDEBUG"')
+        self.assertContains(response, 'src="/static/img/securite.png?v=portfolio-security-skill-image"')
+        self.assertContains(response, 'alt="Illustration de cybersécurité"')
         self.assertContains(response, 'href="https://www.linkedin.com/in/example"')
         self.assertNotContains(response, 'href="#"')
 
@@ -200,4 +222,3 @@ class ContactAuthWorkflowTests(TestCase):
         with override_settings(GOOGLE_CLIENT_ID=""):
             response = self.client.get(reverse("google_login"))
             self.assertRedirects(response, f"{reverse('login')}?next=%2F%23contact")
-

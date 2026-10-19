@@ -2,10 +2,42 @@ document.addEventListener("DOMContentLoaded", function () {
     const links = document.querySelectorAll('.nav_link');
     const hamburger = document.querySelector('.hamburger');
     const menuUl = document.querySelector('.menu_ul');
+    const themeToggle = document.querySelector('[data-theme-toggle]');
     const counters = Array.from(document.querySelectorAll('[data-counter]')).filter(function (counter) {
         return !counter.closest('[data-metric-slide]');
     });
     const counterAnimationFrames = new WeakMap();
+
+    if (themeToggle) {
+        const themeIcon = themeToggle.querySelector('i');
+        const themeLabel = themeToggle.querySelector('[data-theme-label]');
+        let currentTheme = 'light';
+
+        function applyTheme(theme) {
+            currentTheme = theme;
+            document.body.dataset.theme = currentTheme;
+            themeToggle.setAttribute('aria-pressed', String(currentTheme === 'light'));
+            themeToggle.setAttribute(
+                'aria-label',
+                currentTheme === 'light' ? 'Activer le thème sombre' : 'Activer le thème clair'
+            );
+            themeToggle.title = currentTheme === 'light' ? 'Activer le thème sombre' : 'Activer le thème clair';
+
+            if (themeIcon) {
+                themeIcon.classList.toggle('fa-sun', currentTheme === 'dark');
+                themeIcon.classList.toggle('fa-moon', currentTheme === 'light');
+            }
+            if (themeLabel) {
+                themeLabel.textContent = currentTheme === 'light' ? 'Mode sombre' : 'Mode clair';
+            }
+        }
+
+        applyTheme(currentTheme);
+        themeToggle.addEventListener('click', function () {
+            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(nextTheme);
+        });
+    }
 
     links.forEach(function (link) {
         link.addEventListener('click', function () {
@@ -27,6 +59,48 @@ document.addEventListener("DOMContentLoaded", function () {
             const isOpen = menuUl.classList.toggle('active');
             hamburger.setAttribute('aria-expanded', String(isOpen));
             document.body.classList.toggle('menu-open', isOpen);
+        });
+    }
+
+    const skillTabList = document.querySelector('[data-skill-tabs]');
+    if (skillTabList) {
+        const skillTabs = Array.from(skillTabList.querySelectorAll('[data-skill-tab]'));
+        const skillPanels = Array.from(document.querySelectorAll('[data-skill-panel]'));
+
+        function selectSkillTab(tab, moveFocus) {
+            const category = tab.dataset.skillTab;
+            skillTabs.forEach(function (skillTab) {
+                const isSelected = skillTab === tab;
+                skillTab.classList.toggle('is-active', isSelected);
+                skillTab.setAttribute('aria-selected', String(isSelected));
+                skillTab.tabIndex = isSelected ? 0 : -1;
+            });
+            skillPanels.forEach(function (panel) {
+                panel.hidden = panel.dataset.skillPanel !== category;
+            });
+            if (moveFocus) tab.focus();
+        }
+
+        skillTabs.forEach(function (tab, index) {
+            tab.addEventListener('click', function () {
+                selectSkillTab(tab, false);
+            });
+            tab.addEventListener('keydown', function (event) {
+                let nextIndex;
+                if (event.key === 'ArrowRight') {
+                    nextIndex = (index + 1) % skillTabs.length;
+                } else if (event.key === 'ArrowLeft') {
+                    nextIndex = (index - 1 + skillTabs.length) % skillTabs.length;
+                } else if (event.key === 'Home') {
+                    nextIndex = 0;
+                } else if (event.key === 'End') {
+                    nextIndex = skillTabs.length - 1;
+                } else {
+                    return;
+                }
+                event.preventDefault();
+                selectSkillTab(skillTabs[nextIndex], true);
+            });
         });
     }
 
