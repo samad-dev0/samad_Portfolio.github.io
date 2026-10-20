@@ -391,6 +391,24 @@
         display: block;
     }
 
+    .hero_liquid_one {
+        top: 52%;
+        right: 10%;
+        width: clamp(100px, 28vw, 170px);
+    }
+
+    .hero_liquid_two {
+        top: 70%;
+        right: 4%;
+        width: clamp(62px, 18vw, 100px);
+    }
+
+    .hero_liquid_three {
+        right: 68%;
+        bottom: 4%;
+        width: clamp(54px, 15vw, 82px);
+    }
+
     .header_banner .left_box.hero_intro,
     .header_banner .right_box.hero_visual {
         width: 100%;

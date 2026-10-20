@@ -3,10 +3,47 @@ document.addEventListener("DOMContentLoaded", function () {
     const hamburger = document.querySelector('.hamburger');
     const menuUl = document.querySelector('.menu_ul');
     const themeToggle = document.querySelector('[data-theme-toggle]');
+    const typewriter = document.querySelector('[data-typewriter]');
     const counters = Array.from(document.querySelectorAll('[data-counter]')).filter(function (counter) {
         return !counter.closest('[data-metric-slide]');
     });
     const counterAnimationFrames = new WeakMap();
+
+    if (typewriter && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const parts = Array.from(typewriter.querySelectorAll('[data-typewriter-part]'));
+        const textParts = parts.map(function (part) {
+            return part.textContent;
+        });
+        let partIndex = 0;
+        let characterIndex = 0;
+
+        parts.forEach(function (part) {
+            part.textContent = '';
+        });
+        typewriter.classList.add('is-typing');
+
+        function typeNextCharacter() {
+            const part = parts[partIndex];
+            const text = textParts[partIndex];
+
+            if (characterIndex < text.length) {
+                characterIndex += 1;
+                part.textContent = text.slice(0, characterIndex);
+                window.setTimeout(typeNextCharacter, 65);
+                return;
+            }
+
+            partIndex += 1;
+            characterIndex = 0;
+            if (partIndex < parts.length) {
+                window.setTimeout(typeNextCharacter, partIndex === parts.length - 1 ? 180 : 120);
+            } else {
+                typewriter.classList.remove('is-typing');
+            }
+        }
+
+        typeNextCharacter();
+    }
 
     if (themeToggle) {
         const themeIcon = themeToggle.querySelector('i');

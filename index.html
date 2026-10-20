@@ -11,8 +11,8 @@
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{% static 'lib/aos/aos.css' %}">
-    <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}?v=portfolio-security-circle-animation" />
-    <link rel="stylesheet" href="{% static 'css/resposive.css' %}?v=portfolio-security-image-size" />
+    <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}?v=portfolio-light-fluid-accents" />
+    <link rel="stylesheet" href="{% static 'css/resposive.css' %}?v=portfolio-fluid-accents" />
 </head>
 
 <body data-theme="light">
@@ -74,10 +74,18 @@
             <path class="hero_shape_mobile"
                 d="M170 0C110 100 85 190 130 275C180 365 150 455 100 535C60 595 25 650 60 700H1000V0Z" />
         </svg>
+        <div class="hero_liquid_decor" aria-hidden="true">
+            <span class="hero_liquid hero_liquid_one"></span>
+            <span class="hero_liquid hero_liquid_two"></span>
+            <span class="hero_liquid hero_liquid_three"></span>
+        </div>
         <div class="container banner_content">
             <div class="left_box hero_intro">
-                <h1 class="hero_title" data-aos="fade-right">
-                    Bonjour,<br>je suis <span>{{ profile.full_name }}</span>
+                <h1 class="hero_title" data-aos="fade-right" data-typewriter
+                    aria-label="Bonjour, je suis {{ profile.full_name }}">
+                    <span data-typewriter-part aria-hidden="true">Bonjour,</span><br>
+                    <span data-typewriter-part aria-hidden="true">je suis </span><span data-typewriter-part
+                        aria-hidden="true">{{ profile.full_name }}</span>
                 </h1>
                 <p class="hero_description" data-aos="fade-down">{{ profile.bio_first|truncatewords:34 }}</p>
                 <div class="hero_actions" data-aos="fade-up">
@@ -254,7 +262,7 @@
     <!-- services -->
     <div class="container-fluid services" id="services">
         <div class="container services_content">
-            <div class="section_title">
+            <div class="section_title" data-aos="fade-up">
                 <span>Services</span>
                 <h3>Ce que je fais pour mes clients</h3>
             </div>
@@ -304,11 +312,12 @@
     <!-- skill -->
     <div class="container-fluid skill" id="skill">
         <div class="container skill_content">
-            <div class="section_title">
+            <div class="section_title" data-aos="fade-up">
                 <span>Compétences</span>
                 <h3>Mes compétences</h3>
             </div>
-            <div class="skill_tabs" role="tablist" aria-label="Catégories de compétences" data-skill-tabs>
+            <div class="skill_tabs" role="tablist" aria-label="Catégories de compétences" data-skill-tabs
+                data-aos="fade-up" data-aos-delay="100">
                 <button class="skill_tab is-active" id="skill-tab-frontend" type="button" role="tab"
                     aria-selected="true" aria-controls="skill-panel-frontend" tabindex="0"
                     data-skill-tab="frontend">Frontend</button>
@@ -501,7 +510,7 @@
     <!-- contact -->
     <div class="container-fluid contact" id="contact">
         <div class="container contact_content">
-            <div class="section_title">
+            <div class="section_title" data-aos="fade-up">
                 <span>Contact</span>
                 <h3>Entrer en contact</h3>
             </div>
@@ -654,7 +663,7 @@
     <!-- footer -->
     <!-- script -->
     <script src="{% static 'lib/aos/aos.js' %}"></script>
-    <script src="{% static 'js/script.js' %}?v=portfolio-light-startup"></script>
+    <script src="{% static 'js/script.js' %}?v=portfolio-hero-typewriter"></script>
     <script>
         document.querySelector("[data-current-year]").textContent = new Date().getFullYear();
     </script>

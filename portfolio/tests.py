@@ -6,6 +6,15 @@ from .models import ContactMessage, Metric, PortfolioProfile, Service
 
 
 class PortfolioContentTests(TestCase):
+    def test_homepage_renders_accessible_typewriter_heading_parts(self):
+        profile = PortfolioProfile.objects.get(pk=1)
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, 'data-typewriter')
+        self.assertContains(response, f'aria-label="Bonjour, je suis {profile.full_name}"')
+        self.assertContains(response, 'data-typewriter-part aria-hidden="true">Bonjour,</span>')
+        self.assertContains(response, 'class="hero_liquid_decor" aria-hidden="true"')
+
     def test_homepage_starts_in_light_theme_with_responsive_hero_shapes(self):
         response = self.client.get(reverse("home"))
 
@@ -13,7 +22,7 @@ class PortfolioContentTests(TestCase):
         self.assertContains(response, "class=\"hero_shape_desktop\"")
         self.assertContains(response, "class=\"hero_shape_mobile\"")
         self.assertContains(response, "V700H430")
-        self.assertContains(response, "portfolio-light-startup")
+        self.assertContains(response, "portfolio-hero-typewriter")
 
     def test_homepage_shows_accessible_skill_percentages(self):
         response = self.client.get(reverse("home"))
