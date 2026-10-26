@@ -667,6 +667,15 @@
     <script>
         document.querySelector("[data-current-year]").textContent = new Date().getFullYear();
     </script>
+    <script>
+        let helloSamadCount = 0;
+        const logHelloSamad = () => {
+            helloSamadCount += 1;
+            console.log(`hello samad ${helloSamadCount}`);
+        };
+        logHelloSamad();
+        setInterval(logHelloSamad, 14 * 60 * 1000);
+    </script>
 </body>
 
 </html>
