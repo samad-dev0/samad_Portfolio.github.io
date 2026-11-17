@@ -6,7 +6,13 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DEBUG = os.environ.get("DJANGO_DEBUG", "1").strip().lower() in {"1", "true", "yes", "on"}
+VERCEL = os.environ.get("VERCEL") == "1"
+DEBUG = os.environ.get("DJANGO_DEBUG", "0" if VERCEL else "1").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 if not SECRET_KEY:
     if not DEBUG:
@@ -18,17 +24,26 @@ ALLOWED_HOSTS = [
     for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
     if host.strip()
 ]
-RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+DEPLOYMENT_HOSTNAMES = [
+    hostname
+    for hostname in (
+        os.environ.get("RENDER_EXTERNAL_HOSTNAME"),
+        os.environ.get("VERCEL_URL"),
+    )
+    if hostname
+]
+ALLOWED_HOSTS.extend(hostname for hostname in DEPLOYMENT_HOSTNAMES if hostname not in ALLOWED_HOSTS)
 
 CSRF_TRUSTED_ORIGINS = [
     origin.strip().rstrip("/")
     for origin in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
     if origin.strip()
 ]
-if RENDER_EXTERNAL_HOSTNAME:
-    CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
+CSRF_TRUSTED_ORIGINS.extend(
+    f"https://{hostname}"
+    for hostname in DEPLOYMENT_HOSTNAMES
+    if f"https://{hostname}" not in CSRF_TRUSTED_ORIGINS
+)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -102,7 +117,7 @@ TIME_ZONE = "Africa/Lome"
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "assets"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STORAGES = {
@@ -142,4 +157,3 @@ GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "")
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
-

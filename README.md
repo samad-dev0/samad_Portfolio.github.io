@@ -28,6 +28,18 @@ Le dépôt inclut `render.yaml` pour créer le service web Render. Avant le prem
 
 Ne mets pas l'URL de base, de secret ou de mot de passe dans Git. SQLite reste utilisé en local; en production, le service refuse de démarrer sans `DATABASE_URL` pour éviter de perdre les données au redémarrage. Le SMTP est facultatif pour le lancement, mais doit être configuré dans les variables Render (`EMAIL_HOST`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `DEFAULT_FROM_EMAIL`) pour envoyer les confirmations de contact. Si tu ajoutes un domaine personnalisé, ajoute-le aussi à `DJANGO_ALLOWED_HOSTS` et `DJANGO_CSRF_TRUSTED_ORIGINS`.
 
+## Déploiement Vercel
+
+Vercel détecte automatiquement Django à partir de `manage.py`, utilise `portfolio_site.wsgi:application` et publie les fichiers de `STATIC_ROOT` sur son CDN. Aucun `vercel.json` n'est nécessaire.
+
+1. Importe le dépôt dans Vercel en gardant la racine du projet par défaut.
+2. Crée une base PostgreSQL persistante (par exemple via l'intégration Neon) et ajoute son URL de connexion comme variable `DATABASE_URL` dans les environnements Vercel utilisés.
+3. Configure dans Vercel les variables `DJANGO_SECRET_KEY` (une clé aléatoire secrète) et `DJANGO_DEBUG=0`. Sans clé ou base de données en production, Django refuse de démarrer. Ne déploie pas avec SQLite : le système de fichiers des fonctions Vercel n'est pas persistant.
+4. Vercel ajoute automatiquement le domaine de chaque déploiement à la liste des hôtes autorisés. Pour un domaine personnalisé, ajoute son nom à `DJANGO_ALLOWED_HOSTS` et son origine complète (par exemple `https://www.exemple.com`) à `DJANGO_CSRF_TRUSTED_ORIGINS`, séparée par des virgules s'il y en a plusieurs.
+5. Après avoir renseigné `DATABASE_URL`, applique les migrations à la base avec `python manage.py migrate --noinput` avant la première utilisation. Configure aussi `GOOGLE_CLIENT_ID` et `GOOGLE_CLIENT_SECRET` si la connexion Google est activée, et les variables `EMAIL_*` pour l'envoi des confirmations.
+
+Les paramètres `VERCEL_URL` et `VERCEL` fournis par la plateforme sont pris en compte automatiquement. Les paramètres de Render restent compatibles.
+
 ## Courriels de confirmation
 
 Après l'enregistrement d'un message, le portfolio envoie automatiquement le courriel de confirmation à l'adresse saisie dans le formulaire. Configure le SMTP dans l'environnement avant de démarrer Django (exemple PowerShell avec Gmail et un mot de passe d'application) :
